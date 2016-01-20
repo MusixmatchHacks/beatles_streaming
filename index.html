@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Beatles lyrics on Spotify</title>
+
+  <script src='scripts/bundle.js'></script>
+</head>
+
+<body>
+  <div id='header'>
+    <div id='cover'>
+      <div class='container center'>
+        <a href='https://www.musixmatch.com/'>
+          <img id='logo' src='./images/mxm_logo_white.png'>
+        </a>
+        <h1 class='heading'>The Beatles lyrics on Spotify</h1>
+      </div>
+    </div>
+  </div>
+  <div id='controls' class='container center'>
+    <!-- <div class='desc'>Users of streaming serivces got a pleasant service</div> -->
+    <p class='description'>Users of streaming services got an awesome Christmas present when the entire Beatles catalogue went up for streaming on the 24<sup>th</sup> of December. Spotify users use the Musixmatch app for singing along at parties or at home. We were
+      curious to find out which are the most sung along Beatles lyrics. Let's find out.</p>
+
+      <div class='desc'>Most searched Beatles lyrics on Spotify</div>
+      <div class='desc'><small>24-12-2015 to 20-1-2016</small></div>
+    <!-- <div id='buttons'>
+
+      <div id='dropdown' class="">
+        <select>
+          <option value="1">Worldwide</option>
+          <option value="2">USA</option>
+          <option value="3">UK</option>
+        </select>
+      </div>
+
+      <p id=''>
+        <input type="checkbox" id="checkbox1" />
+        <label for="checkbox1">2015 releases only</label>
+      </p>
+
+    </div> -->
+  </div>
+  <div id='chart' class='container'>
+
+  </div>
+
+  <script id="template-chart-track" type="text/x-handlebars-template">
+    <div class='row'>
+      {{#each this}}
+      <a href="{{link}}" class='track-link' target="blank">
+        <div class='{{class}}'>
+          <div class="backgrnd hoverable" style="background-image: url({{img}});">
+            <div class="track">
+
+              <!-- {{#if img }} -->
+              <!-- <div class="card-image"> -->
+              <!-- <img class="" src="{{img}}"> -->
+
+              <!-- <div class="row"> -->
+              <!-- <div class='col s5'> -->
+              <div class='info'>
+                <div class='rank'>{{ranking}}</div>
+                <!-- </div> -->
+                <!-- <div class='col s7'> -->
+                <div class='credits'>
+                  <div class='title'> {{title}} </div>
+                  <div class='artist'> {{artist}}, {{release_year}} </div>
+                  <!-- <div class='views'> {{views}} views </div> -->
+                </div>
+              </div>
+              <!-- <p class='quote'>"</p> -->
+
+              <!-- </div> -->
+              <!-- <div class='col s12'> -->
+              <div class='quote'>
+                <span class='quoteBig'></span>
+                <div class="snippet"> <i>{{snippet}}</i></div>
+              </div>
+              <!-- </div> -->
+              <!-- </div> -->
+              <!-- </div> -->
+              <!-- {{else}}
+        <div class="card-image">
+          <img class="empty-image" src="">
+
+          <div class="card-title center-align">{{title}} </div>
+        </div>
+        {{/if}} -->
+
+              <!-- <div class="card-content"> -->
+              <!-- <p class="">{{highlight}}</p> -->
+              <!-- <p class="tags">{{tags}}</p> -->
+              <!-- </div> -->
+
+            </div>
+          </div>
+        </div>
+      </a>
+
+      {{/each}}
+    </div>
+  </script>
+
+  <script>
+    var track_template = Handlebars.compile($('#template-chart-track').html());
+    console.log(track_template)
+
+    $('#chart').append(track_template(year_end_charts['Worldwide']));
+
+    function change_font_size() {
+      var card_width = $(".track").width();
+      var card_height = $(".track").height();
+      var new_font_size = card_width * 36 / 629;
+      // console.log(new_font_size)
+      $(".track").css("font-size", new_font_size)
+
+      var rank_height = $(".rank").height()
+        // console.log(rank_height)
+      quote_top = 80 + (22 - rank_height) * 7
+        // $(".quote_box").css("top", quote_top)
+    }
+    change_font_size()
+  </script>
+
+  <script>
+    $(document).ready(function() { //materialize-css initialization for the select
+      $('select').material_select();
+    });
+
+    $("#dropdown").change(function() { //dropdown change handler
+      var region = $("#dropdown").find(":selected").text();
+      $('#chart').empty()
+        // console.log(region)
+      if ($('#checkbox1').is(":checked")) {
+        $('#chart').append(track_template(year_end_charts[region + '_2015']))
+        change_font_size()
+      } else {
+        $('#chart').append(track_template(year_end_charts[region]))
+        change_font_size()
+      }
+    });
+
+    $("#checkbox1").change(function() { //2015 switch handler
+      var region = $("#dropdown").find(":selected").text()
+      $('#chart').empty()
+      if ($('#checkbox1').is(":checked")) {
+
+        $('#chart').append(track_template(year_end_charts[region + '_2015']))
+        change_font_size()
+      } else {
+
+        $('#chart').append(track_template(year_end_charts[region]))
+        change_font_size()
+      }
+    });
+  </script>
+</body>
+
+</html>
